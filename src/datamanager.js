@@ -70,7 +70,7 @@ export default class DataManager {
         if (this.options.serialNoColumn && !this.hasColumnById('_rowIndex')) {
             let cell = {
                 id: '_rowIndex',
-                content: '',
+                content: this.options.serialNoColumnLabel || '',
                 align: 'center',
                 editable: false,
                 resizable: false,

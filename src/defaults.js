@@ -54,6 +54,7 @@ export default function getDefaultOptions(instance) {
         freezeMessage: '',
         getEditor: null,
         serialNoColumn: true,
+        serialNoColumnLabel: '',
         checkboxColumn: false,
         clusterize: true,
         logs: false,
