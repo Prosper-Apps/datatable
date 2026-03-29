@@ -823,8 +823,15 @@ export default class CellManager {
         });
 
         const row = this.datamanager.getRow(rowIndex);
+        const column = cell.column || this.datamanager.getColumn(colIndex) || {};
 
         const isBodyCell = !(isHeader || isFilter || isTotalRow);
+        const isSticky = Boolean(column.sticky);
+        const stickyColumns = this.datamanager.getColumns().filter(col => col.sticky);
+        const lastStickyColumn = stickyColumns[stickyColumns.length - 1];
+        const isLastStickyColumn = isSticky &&
+            lastStickyColumn &&
+            lastStickyColumn.colIndex === colIndex;
 
         const className = [
             'dt-cell',
@@ -834,7 +841,10 @@ export default class CellManager {
             isHeader ? 'dt-cell--header' : '',
             isHeader ? `dt-cell--header-${colIndex}` : '',
             isFilter ? 'dt-cell--filter' : '',
-            isBodyCell && (row && row.meta.isTreeNodeClose) ? 'dt-cell--tree-close' : ''
+            isBodyCell && (row && row.meta.isTreeNodeClose) ? 'dt-cell--tree-close' : '',
+            isSticky ? 'dt-cell--sticky' : '',
+            isSticky && !isBodyCell ? 'dt-cell--sticky-top' : '',
+            isLastStickyColumn ? 'dt-cell--sticky-last' : ''
         ].join(' ');
 
         return `
