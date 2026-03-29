@@ -386,6 +386,9 @@ export default class Style {
         let normalOffset = 0;
 
         this.datamanager.getColumns().forEach((column) => {
+            const $headerCell = this.getColumnHeaderElement(column.colIndex);
+            const renderedWidth = $headerCell ? $headerCell.offsetWidth : column.width;
+
             if (column.sticky) {
                 const selector = `.dt-cell--col-${column.colIndex}.dt-cell--sticky`;
                 const style = {
@@ -394,11 +397,12 @@ export default class Style {
 
                 column.stickyLeft = stickyOffset;
                 column.stickyScrollTrigger = normalOffset - stickyOffset;
+                column.renderedWidth = renderedWidth;
                 this.setStyle(selector, style);
                 stickySelectors.push(selector);
-                stickyOffset += column.width;
+                stickyOffset += renderedWidth;
             }
-            normalOffset += column.width;
+            normalOffset += renderedWidth;
         });
 
         const staleSelectors = (this._stickySelectors || [])
