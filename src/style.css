@@ -17,6 +17,7 @@
     --dt-toast-message-border: none;
     --dt-header-cell-bg: var(--dt-cell-bg);
     --dt-no-data-message-width: 90px;
+    --dt-scroll-left: 0px;
 }
 
 .datatable {
@@ -170,6 +171,29 @@
     &:last-child {
         border-right: 1px solid var(--dt-border-color);
     }
+
+    &--sticky {
+        position: sticky;
+        left: 0;
+        z-index: 1;
+    }
+
+    &--sticky-top {
+        z-index: 4;
+        will-change: transform;
+    }
+
+    &--sticky-last::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: -1px;
+        width: 8px;
+        height: 100%;
+        pointer-events: none;
+        box-shadow: 4px 0 6px -4px rgba(15, 23, 42, 0.2);
+    }
+
 }
 
 .datatable[dir=rtl] .dt-cell__resize-handle {

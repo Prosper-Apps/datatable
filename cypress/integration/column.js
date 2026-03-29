@@ -67,4 +67,30 @@ describe('Column', function () {
         cy.getCell(4, 1).should('have.css', 'width')
             .and('match', /9\dpx/);
     });
+
+    it('keeps sticky columns pinned while scrolling horizontally', function () {
+        cy.get('.dt-scrollable').then(($scrollable) => {
+            const scrollable = $scrollable[0];
+            const stickyBodyCell = Cypress.$('.dt-cell--3-0')[0];
+            const stickyHeaderCell = Cypress.$('.dt-cell--header-3')[0];
+            const regularBodyCell = Cypress.$('.dt-cell--4-0')[0];
+
+            const initialStickyBodyLeft = stickyBodyCell.getBoundingClientRect().left;
+            const initialStickyHeaderLeft = stickyHeaderCell.getBoundingClientRect().left;
+            const initialRegularBodyLeft = regularBodyCell.getBoundingClientRect().left;
+
+            scrollable.scrollLeft = 220;
+            scrollable.dispatchEvent(new Event('scroll'));
+
+            cy.wait(50).then(() => {
+                const nextStickyBodyLeft = stickyBodyCell.getBoundingClientRect().left;
+                const nextStickyHeaderLeft = stickyHeaderCell.getBoundingClientRect().left;
+                const nextRegularBodyLeft = regularBodyCell.getBoundingClientRect().left;
+
+                expect(nextStickyBodyLeft).to.equal(initialStickyBodyLeft);
+                expect(nextStickyHeaderLeft).to.equal(initialStickyHeaderLeft);
+                expect(nextRegularBodyLeft).to.be.lessThan(initialRegularBodyLeft);
+            });
+        });
+    });
 });

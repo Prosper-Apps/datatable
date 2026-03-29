@@ -62,6 +62,7 @@ export default class DataManager {
                 sortable: false,
                 focusable: false,
                 dropdown: false,
+                sticky: true,
                 width: 32
             };
             this.columns.push(cell);
@@ -75,7 +76,8 @@ export default class DataManager {
                 editable: false,
                 resizable: false,
                 focusable: false,
-                dropdown: false
+                dropdown: false,
+                sticky: true
             };
             if (this.options.data.length > 1000) {
                 cell.resizable = true;
