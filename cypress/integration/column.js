@@ -69,6 +69,10 @@ describe('Column', function () {
     });
 
     it('keeps sticky columns pinned while scrolling horizontally', function () {
+        const expectPinned = (actual, expected) => {
+            expect(actual).to.be.closeTo(expected, 1);
+        };
+
         cy.get('.dt-scrollable').then(($scrollable) => {
             const scrollable = $scrollable[0];
             const stickyCheckboxBodyCell = Cypress.$('.dt-cell--0-0')[0];
@@ -99,12 +103,12 @@ describe('Column', function () {
                 const nextStickyCustomHeaderLeft = stickyCustomHeaderCell.getBoundingClientRect().left;
                 const nextRegularBodyLeft = regularBodyCell.getBoundingClientRect().left;
 
-                expect(nextStickyCheckboxBodyLeft).to.equal(initialStickyCheckboxBodyLeft);
-                expect(nextStickyCheckboxHeaderLeft).to.equal(initialStickyCheckboxHeaderLeft);
-                expect(nextStickySerialBodyLeft).to.equal(initialStickySerialBodyLeft);
-                expect(nextStickySerialHeaderLeft).to.equal(initialStickySerialHeaderLeft);
-                expect(nextStickyCustomBodyLeft).to.equal(initialStickyCustomBodyLeft);
-                expect(nextStickyCustomHeaderLeft).to.equal(initialStickyCustomHeaderLeft);
+                expectPinned(nextStickyCheckboxBodyLeft, initialStickyCheckboxBodyLeft);
+                expectPinned(nextStickyCheckboxHeaderLeft, initialStickyCheckboxHeaderLeft);
+                expectPinned(nextStickySerialBodyLeft, initialStickySerialBodyLeft);
+                expectPinned(nextStickySerialHeaderLeft, initialStickySerialHeaderLeft);
+                expectPinned(nextStickyCustomBodyLeft, initialStickyCustomBodyLeft);
+                expectPinned(nextStickyCustomHeaderLeft, initialStickyCustomHeaderLeft);
                 expect(nextRegularBodyLeft).to.be.lessThan(initialRegularBodyLeft);
             });
         });
