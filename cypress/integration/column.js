@@ -71,24 +71,40 @@ describe('Column', function () {
     it('keeps sticky columns pinned while scrolling horizontally', function () {
         cy.get('.dt-scrollable').then(($scrollable) => {
             const scrollable = $scrollable[0];
-            const stickyBodyCell = Cypress.$('.dt-cell--3-0')[0];
-            const stickyHeaderCell = Cypress.$('.dt-cell--header-3')[0];
+            const stickyCheckboxBodyCell = Cypress.$('.dt-cell--0-0')[0];
+            const stickyCheckboxHeaderCell = Cypress.$('.dt-cell--header-0')[0];
+            const stickySerialBodyCell = Cypress.$('.dt-cell--1-0')[0];
+            const stickySerialHeaderCell = Cypress.$('.dt-cell--header-1')[0];
+            const stickyCustomBodyCell = Cypress.$('.dt-cell--2-0')[0];
+            const stickyCustomHeaderCell = Cypress.$('.dt-cell--header-2')[0];
             const regularBodyCell = Cypress.$('.dt-cell--4-0')[0];
 
-            const initialStickyBodyLeft = stickyBodyCell.getBoundingClientRect().left;
-            const initialStickyHeaderLeft = stickyHeaderCell.getBoundingClientRect().left;
+            const initialStickyCheckboxBodyLeft = stickyCheckboxBodyCell.getBoundingClientRect().left;
+            const initialStickyCheckboxHeaderLeft = stickyCheckboxHeaderCell.getBoundingClientRect().left;
+            const initialStickySerialBodyLeft = stickySerialBodyCell.getBoundingClientRect().left;
+            const initialStickySerialHeaderLeft = stickySerialHeaderCell.getBoundingClientRect().left;
+            const initialStickyCustomBodyLeft = stickyCustomBodyCell.getBoundingClientRect().left;
+            const initialStickyCustomHeaderLeft = stickyCustomHeaderCell.getBoundingClientRect().left;
             const initialRegularBodyLeft = regularBodyCell.getBoundingClientRect().left;
 
             scrollable.scrollLeft = 220;
             scrollable.dispatchEvent(new Event('scroll'));
 
             cy.wait(50).then(() => {
-                const nextStickyBodyLeft = stickyBodyCell.getBoundingClientRect().left;
-                const nextStickyHeaderLeft = stickyHeaderCell.getBoundingClientRect().left;
+                const nextStickyCheckboxBodyLeft = stickyCheckboxBodyCell.getBoundingClientRect().left;
+                const nextStickyCheckboxHeaderLeft = stickyCheckboxHeaderCell.getBoundingClientRect().left;
+                const nextStickySerialBodyLeft = stickySerialBodyCell.getBoundingClientRect().left;
+                const nextStickySerialHeaderLeft = stickySerialHeaderCell.getBoundingClientRect().left;
+                const nextStickyCustomBodyLeft = stickyCustomBodyCell.getBoundingClientRect().left;
+                const nextStickyCustomHeaderLeft = stickyCustomHeaderCell.getBoundingClientRect().left;
                 const nextRegularBodyLeft = regularBodyCell.getBoundingClientRect().left;
 
-                expect(nextStickyBodyLeft).to.equal(initialStickyBodyLeft);
-                expect(nextStickyHeaderLeft).to.equal(initialStickyHeaderLeft);
+                expect(nextStickyCheckboxBodyLeft).to.equal(initialStickyCheckboxBodyLeft);
+                expect(nextStickyCheckboxHeaderLeft).to.equal(initialStickyCheckboxHeaderLeft);
+                expect(nextStickySerialBodyLeft).to.equal(initialStickySerialBodyLeft);
+                expect(nextStickySerialHeaderLeft).to.equal(initialStickySerialHeaderLeft);
+                expect(nextStickyCustomBodyLeft).to.equal(initialStickyCustomBodyLeft);
+                expect(nextStickyCustomHeaderLeft).to.equal(initialStickyCustomHeaderLeft);
                 expect(nextRegularBodyLeft).to.be.lessThan(initialRegularBodyLeft);
             });
         });
