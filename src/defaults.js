@@ -30,6 +30,22 @@ export default function getDefaultOptions(instance) {
                 action: function (column) {
                     this.removeColumn(column.colIndex);
                 }
+            },
+            {
+                label: instance.translate('Stick to left'),
+                stickyAction: 'stick',
+                display: 'hidden',
+                action: function (column) {
+                    this.setColumnSticky(column.colIndex, true);
+                }
+            },
+            {
+                label: instance.translate('Unstick from left'),
+                stickyAction: 'unstick',
+                display: 'hidden',
+                action: function (column) {
+                    this.setColumnSticky(column.colIndex, false);
+                }
             }
         ],
         events: {

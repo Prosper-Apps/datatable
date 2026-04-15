@@ -93,7 +93,7 @@ export default class ColumnManager {
         });
 
         $.on(this.$dropdownList, 'click', '.dt-dropdown__list-item', (e, $item) => {
-            if (!this._dropdownActiveColIndex) return;
+            if (this._dropdownActiveColIndex == null) return;
             const dropdownItems = this.options.headerDropdown;
             const { index } = $.data($item);
             const colIndex = this._dropdownActiveColIndex;
@@ -107,6 +107,11 @@ export default class ColumnManager {
         function deactivateDropdown(e) {
             _this.hideDropdown();
         }
+
+        this.stickDropdownIndex = this.options.headerDropdown
+            .findIndex(item => item.stickyAction === 'stick');
+        this.unstickDropdownIndex = this.options.headerDropdown
+            .findIndex(item => item.stickyAction === 'unstick');
 
         this.hideDropdown();
     }
@@ -124,6 +129,7 @@ export default class ColumnManager {
         const $cell = $.closest('.dt-cell', e.target);
         const { colIndex } = $.data($cell);
         this._dropdownActiveColIndex = colIndex;
+        this.updateStickyDropdownItems(this.getColumn(colIndex));
     }
 
     hideDropdown() {
@@ -302,6 +308,20 @@ export default class ColumnManager {
             .then(() => {
                 this.fireEvent('onRemoveColumn', removedCol);
             });
+    }
+
+    setColumnSticky(colIndex, sticky) {
+        const column = this.getColumn(colIndex);
+        if (!column || column.sticky === sticky) {
+            return;
+        }
+
+        this.instance.freeze();
+        this.datamanager.updateColumn(colIndex, { sticky });
+
+        this.refreshHeader();
+        this.rowmanager.refreshRows()
+            .then(() => this.instance.unfreeze());
     }
 
     switchColumn(oldIndex, newIndex) {
@@ -492,5 +512,22 @@ export default class ColumnManager {
 
     toggleDropdownItem(index) {
         $('.dt-dropdown__list', this.instance.dropdownContainer).children[index].classList.toggle('dt-hidden');
+    }
+
+    updateStickyDropdownItems(column) {
+        if (!column) return;
+        if (this.stickDropdownIndex === -1 || this.unstickDropdownIndex === -1) return;
+
+        const stickItem = this.$dropdownList.children[this.stickDropdownIndex];
+        const unstickItem = this.$dropdownList.children[this.unstickDropdownIndex];
+        if (!(stickItem && unstickItem)) return;
+
+        if (column.sticky) {
+            stickItem.classList.add('dt-hidden');
+            unstickItem.classList.remove('dt-hidden');
+        } else {
+            stickItem.classList.remove('dt-hidden');
+            unstickItem.classList.add('dt-hidden');
+        }
     }
 }

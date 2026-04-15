@@ -68,6 +68,29 @@ describe('Column', function () {
             .and('match', /9\dpx/);
     });
 
+    it('pins a column from the dropdown menu', function () {
+        cy.clickDropdown(3);
+        cy.clickDropdownItem(3, 'Stick to left');
+
+        cy.window().then(win => win.datatable.getColumn(3))
+            .its('sticky')
+            .should('eq', true);
+
+        cy.get('.dt-scrollable').then(($scrollable) => {
+            const scrollable = $scrollable[0];
+            const stickyBodyCell = Cypress.$('.dt-cell--3-0')[0];
+            const initialStickyBodyLeft = stickyBodyCell.getBoundingClientRect().left;
+
+            scrollable.scrollLeft = 220;
+            scrollable.dispatchEvent(new Event('scroll'));
+
+            cy.wait(50).then(() => {
+                const nextStickyBodyLeft = stickyBodyCell.getBoundingClientRect().left;
+                expect(nextStickyBodyLeft).to.be.closeTo(initialStickyBodyLeft, 1);
+            });
+        });
+    });
+
     it('keeps sticky columns pinned while scrolling horizontally', function () {
         const expectPinned = (actual, expected) => {
             expect(actual).to.be.closeTo(expected, 1);

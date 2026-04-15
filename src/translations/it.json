@@ -3,6 +3,8 @@
 	"Sort Descending": "Ordinamento decrescente",
 	"Reset sorting": "Azzeramento ordinamento",
 	"Remove column": "Rimuovi colonna",
+	"Stick to left": "Blocca a sinistra",
+	"Unstick from left": "Sblocca dalla sinistra",
 	"No Data": "Nessun dato",
 	"{count} cells copied": {
 		"1": "Copiato {count} cella",
