@@ -1,5 +1,5 @@
 describe('Column', function () {
-    before(function () {
+    beforeEach(function () {
         cy.visit('/');
     });
 
@@ -68,48 +68,62 @@ describe('Column', function () {
             .and('match', /9\dpx/);
     });
 
-    it('keeps sticky columns pinned while scrolling horizontally', function () {
-        const expectPinned = (actual, expected) => {
-            expect(actual).to.be.closeTo(expected, 1);
-        };
+    it('pins a column from the dropdown menu', function () {
+        cy.clickDropdown(2);
+        cy.clickDropdownItem(2, 'Stick to left');
+
+        cy.window().then(win => win.datatable.getColumn(2))
+            .its('sticky')
+            .should('eq', true);
 
         cy.get('.dt-scrollable').then(($scrollable) => {
             const scrollable = $scrollable[0];
-            const stickyCheckboxBodyCell = Cypress.$('.dt-cell--0-0')[0];
-            const stickyCheckboxHeaderCell = Cypress.$('.dt-cell--header-0')[0];
-            const stickySerialBodyCell = Cypress.$('.dt-cell--1-0')[0];
-            const stickySerialHeaderCell = Cypress.$('.dt-cell--header-1')[0];
-            const stickyCustomBodyCell = Cypress.$('.dt-cell--2-0')[0];
-            const stickyCustomHeaderCell = Cypress.$('.dt-cell--header-2')[0];
-            const regularBodyCell = Cypress.$('.dt-cell--4-0')[0];
-
-            const initialStickyCheckboxBodyLeft = stickyCheckboxBodyCell.getBoundingClientRect().left;
-            const initialStickyCheckboxHeaderLeft = stickyCheckboxHeaderCell.getBoundingClientRect().left;
-            const initialStickySerialBodyLeft = stickySerialBodyCell.getBoundingClientRect().left;
-            const initialStickySerialHeaderLeft = stickySerialHeaderCell.getBoundingClientRect().left;
-            const initialStickyCustomBodyLeft = stickyCustomBodyCell.getBoundingClientRect().left;
-            const initialStickyCustomHeaderLeft = stickyCustomHeaderCell.getBoundingClientRect().left;
-            const initialRegularBodyLeft = regularBodyCell.getBoundingClientRect().left;
+            const stickyBodyCell = Cypress.$('.dt-cell--2-0')[0];
+            const initialStickyBodyLeft = stickyBodyCell.getBoundingClientRect().left;
 
             scrollable.scrollLeft = 220;
             scrollable.dispatchEvent(new Event('scroll'));
 
             cy.wait(50).then(() => {
-                const nextStickyCheckboxBodyLeft = stickyCheckboxBodyCell.getBoundingClientRect().left;
-                const nextStickyCheckboxHeaderLeft = stickyCheckboxHeaderCell.getBoundingClientRect().left;
-                const nextStickySerialBodyLeft = stickySerialBodyCell.getBoundingClientRect().left;
-                const nextStickySerialHeaderLeft = stickySerialHeaderCell.getBoundingClientRect().left;
-                const nextStickyCustomBodyLeft = stickyCustomBodyCell.getBoundingClientRect().left;
-                const nextStickyCustomHeaderLeft = stickyCustomHeaderCell.getBoundingClientRect().left;
-                const nextRegularBodyLeft = regularBodyCell.getBoundingClientRect().left;
+                const nextStickyBodyLeft = stickyBodyCell.getBoundingClientRect().left;
+                expect(nextStickyBodyLeft).to.be.closeTo(initialStickyBodyLeft, 1);
+            });
+        });
+    });
 
-                expectPinned(nextStickyCheckboxBodyLeft, initialStickyCheckboxBodyLeft);
-                expectPinned(nextStickyCheckboxHeaderLeft, initialStickyCheckboxHeaderLeft);
-                expectPinned(nextStickySerialBodyLeft, initialStickySerialBodyLeft);
-                expectPinned(nextStickySerialHeaderLeft, initialStickySerialHeaderLeft);
-                expectPinned(nextStickyCustomBodyLeft, initialStickyCustomBodyLeft);
-                expectPinned(nextStickyCustomHeaderLeft, initialStickyCustomHeaderLeft);
-                expect(nextRegularBodyLeft).to.be.lessThan(initialRegularBodyLeft);
+    it('keeps sticky columns pinned while scrolling horizontally', function () {
+        cy.get('.dt-scrollable').then(($scrollable) => {
+            const scrollable = $scrollable[0];
+            const checkboxBodyCell = Cypress.$('.dt-cell--0-0')[0];
+            const checkboxHeaderCell = Cypress.$('.dt-cell--header-0')[0];
+            const serialBodyCell = Cypress.$('.dt-cell--1-0')[0];
+            const serialHeaderCell = Cypress.$('.dt-cell--header-1')[0];
+            const officeBodyCell = Cypress.$('.dt-cell--4-0')[0];
+            const officeHeaderCell = Cypress.$('.dt-cell--header-4')[0];
+            const nameBodyCell = Cypress.$('.dt-cell--2-0')[0];
+
+            const initialCheckboxLeft = checkboxBodyCell.getBoundingClientRect().left;
+            const initialSerialLeft = serialBodyCell.getBoundingClientRect().left;
+            const initialNameLeft = nameBodyCell.getBoundingClientRect().left;
+
+            scrollable.scrollLeft = 220;
+            scrollable.dispatchEvent(new Event('scroll'));
+
+            cy.wait(50).then(() => {
+                const nextCheckboxBodyLeft = checkboxBodyCell.getBoundingClientRect().left;
+                const nextCheckboxHeaderLeft = checkboxHeaderCell.getBoundingClientRect().left;
+                const nextSerialBodyLeft = serialBodyCell.getBoundingClientRect().left;
+                const nextSerialHeaderLeft = serialHeaderCell.getBoundingClientRect().left;
+                const nextOfficeBodyLeft = officeBodyCell.getBoundingClientRect().left;
+                const nextOfficeHeaderLeft = officeHeaderCell.getBoundingClientRect().left;
+                const nextNameLeft = nameBodyCell.getBoundingClientRect().left;
+
+                expect(nextCheckboxBodyLeft).to.be.closeTo(initialCheckboxLeft, 1);
+                expect(nextSerialBodyLeft).to.be.closeTo(initialSerialLeft, 1);
+                expect(nextCheckboxHeaderLeft).to.be.closeTo(nextCheckboxBodyLeft, 1);
+                expect(nextSerialHeaderLeft).to.be.closeTo(nextSerialBodyLeft, 1);
+                expect(nextOfficeHeaderLeft).to.be.closeTo(nextOfficeBodyLeft, 1);
+                expect(nextNameLeft).to.be.lessThan(initialNameLeft);
             });
         });
     });
