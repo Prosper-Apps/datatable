@@ -92,49 +92,38 @@ describe('Column', function () {
     });
 
     it('keeps sticky columns pinned while scrolling horizontally', function () {
-        const expectPinned = (actual, expected) => {
-            expect(actual).to.be.closeTo(expected, 1);
-        };
+        cy.get('.dt-scrollable').then(($scrollable) => {
+            const scrollable = $scrollable[0];
+            const checkboxBodyCell = Cypress.$('.dt-cell--0-0')[0];
+            const checkboxHeaderCell = Cypress.$('.dt-cell--header-0')[0];
+            const serialBodyCell = Cypress.$('.dt-cell--1-0')[0];
+            const serialHeaderCell = Cypress.$('.dt-cell--header-1')[0];
+            const officeBodyCell = Cypress.$('.dt-cell--4-0')[0];
+            const officeHeaderCell = Cypress.$('.dt-cell--header-4')[0];
+            const nameBodyCell = Cypress.$('.dt-cell--2-0')[0];
 
-        cy.window().then((win) => {
-            const stickyColumns = win.datatable.getColumns()
-                .filter(column => column.sticky)
-                .map(column => column.colIndex);
-            const nonStickyColumn = win.datatable.getColumns()
-                .find(column => !column.sticky && column.focusable !== false);
+            const initialCheckboxLeft = checkboxBodyCell.getBoundingClientRect().left;
+            const initialSerialLeft = serialBodyCell.getBoundingClientRect().left;
+            const initialNameLeft = nameBodyCell.getBoundingClientRect().left;
 
-            cy.get('.dt-scrollable').then(($scrollable) => {
-                const scrollable = $scrollable[0];
-                const stickyBodyCells = stickyColumns
-                    .map(colIndex => Cypress.$(`.dt-cell--${colIndex}-0`)[0]);
-                const stickyHeaderCells = stickyColumns
-                    .map(colIndex => Cypress.$(`.dt-cell--header-${colIndex}`)[0]);
-                const regularBodyCell = Cypress.$(`.dt-cell--${nonStickyColumn.colIndex}-0`)[0];
+            scrollable.scrollLeft = 220;
+            scrollable.dispatchEvent(new Event('scroll'));
 
-                const initialStickyBodyLefts = stickyBodyCells
-                    .map(cell => cell.getBoundingClientRect().left);
-                const initialStickyHeaderLefts = stickyHeaderCells
-                    .map(cell => cell.getBoundingClientRect().left);
-                const initialRegularBodyLeft = regularBodyCell.getBoundingClientRect().left;
+            cy.wait(50).then(() => {
+                const nextCheckboxBodyLeft = checkboxBodyCell.getBoundingClientRect().left;
+                const nextCheckboxHeaderLeft = checkboxHeaderCell.getBoundingClientRect().left;
+                const nextSerialBodyLeft = serialBodyCell.getBoundingClientRect().left;
+                const nextSerialHeaderLeft = serialHeaderCell.getBoundingClientRect().left;
+                const nextOfficeBodyLeft = officeBodyCell.getBoundingClientRect().left;
+                const nextOfficeHeaderLeft = officeHeaderCell.getBoundingClientRect().left;
+                const nextNameLeft = nameBodyCell.getBoundingClientRect().left;
 
-                scrollable.scrollLeft = 220;
-                scrollable.dispatchEvent(new Event('scroll'));
-
-                cy.wait(50).then(() => {
-                    const nextStickyBodyLefts = stickyBodyCells
-                        .map(cell => cell.getBoundingClientRect().left);
-                    const nextStickyHeaderLefts = stickyHeaderCells
-                        .map(cell => cell.getBoundingClientRect().left);
-                    const nextRegularBodyLeft = regularBodyCell.getBoundingClientRect().left;
-
-                    nextStickyBodyLefts.forEach((left, index) => {
-                        expectPinned(left, initialStickyBodyLefts[index]);
-                    });
-                    nextStickyHeaderLefts.forEach((left, index) => {
-                        expectPinned(left, initialStickyHeaderLefts[index]);
-                    });
-                    expect(nextRegularBodyLeft).to.be.lessThan(initialRegularBodyLeft);
-                });
+                expect(nextCheckboxBodyLeft).to.be.closeTo(initialCheckboxLeft, 1);
+                expect(nextSerialBodyLeft).to.be.closeTo(initialSerialLeft, 1);
+                expect(nextCheckboxHeaderLeft).to.be.closeTo(nextCheckboxBodyLeft, 1);
+                expect(nextSerialHeaderLeft).to.be.closeTo(nextSerialBodyLeft, 1);
+                expect(nextOfficeHeaderLeft).to.be.closeTo(nextOfficeBodyLeft, 1);
+                expect(nextNameLeft).to.be.lessThan(initialNameLeft);
             });
         });
     });
