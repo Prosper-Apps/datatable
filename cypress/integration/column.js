@@ -69,16 +69,16 @@ describe('Column', function () {
     });
 
     it('pins a column from the dropdown menu', function () {
-        cy.clickDropdown(3);
-        cy.clickDropdownItem(3, 'Stick to left');
+        cy.clickDropdown(2);
+        cy.clickDropdownItem(2, 'Stick to left');
 
-        cy.window().then(win => win.datatable.getColumn(3))
+        cy.window().then(win => win.datatable.getColumn(2))
             .its('sticky')
             .should('eq', true);
 
         cy.get('.dt-scrollable').then(($scrollable) => {
             const scrollable = $scrollable[0];
-            const stickyBodyCell = Cypress.$('.dt-cell--3-0')[0];
+            const stickyBodyCell = Cypress.$('.dt-cell--2-0')[0];
             const initialStickyBodyLeft = stickyBodyCell.getBoundingClientRect().left;
 
             scrollable.scrollLeft = 220;
@@ -102,9 +102,9 @@ describe('Column', function () {
             const stickyCheckboxHeaderCell = Cypress.$('.dt-cell--header-0')[0];
             const stickySerialBodyCell = Cypress.$('.dt-cell--1-0')[0];
             const stickySerialHeaderCell = Cypress.$('.dt-cell--header-1')[0];
-            const stickyCustomBodyCell = Cypress.$('.dt-cell--2-0')[0];
-            const stickyCustomHeaderCell = Cypress.$('.dt-cell--header-2')[0];
-            const regularBodyCell = Cypress.$('.dt-cell--4-0')[0];
+            const stickyCustomBodyCell = Cypress.$('.dt-cell--4-0')[0];
+            const stickyCustomHeaderCell = Cypress.$('.dt-cell--header-4')[0];
+            const regularBodyCell = Cypress.$('.dt-cell--2-0')[0];
 
             const initialStickyCheckboxBodyLeft = stickyCheckboxBodyCell.getBoundingClientRect().left;
             const initialStickyCheckboxHeaderLeft = stickyCheckboxHeaderCell.getBoundingClientRect().left;
