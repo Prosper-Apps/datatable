@@ -1,5 +1,5 @@
 describe('Column', function () {
-    before(function () {
+    beforeEach(function () {
         cy.visit('/');
     });
 
