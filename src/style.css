@@ -70,7 +70,7 @@
         display: none;
     }
 
-    &:last-child:not(.dt-row-filter) {
+    &:last-child:not(.dt-row-filter) .dt-cell {
         border-bottom: 1px solid var(--dt-border-color);
     }
 }
@@ -78,7 +78,7 @@
 .dt-cell {
     border: 1px solid var(--dt-border-color);
     border-bottom: none;
-    border-right: none;
+    border-left: none;
     position: relative;
     outline: none;
     padding: 0;
@@ -91,6 +91,10 @@
     */
     background-clip: padding-box;
     user-select: none;
+
+    &:first-child {
+        border-left: 1px solid var(--dt-border-color);
+    }
 
     &__content {
         padding: var(--dt-spacer-2);
