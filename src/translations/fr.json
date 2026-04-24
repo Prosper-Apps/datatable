@@ -3,7 +3,7 @@
 	"Sort Descending": "Trier par ordre décroissant",
 	"Reset sorting": "Réinitialiser le tri",
 	"Remove column": "Supprimer colonne",
-	"Stick to left": "Épingler à gauche",
+	"Freeze": "Geler",
 	"Unstick from left": "Désépingler de la gauche",
 	"No Data": "Pas de données",
 	"{count} cells copied": {
