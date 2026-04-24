@@ -32,7 +32,7 @@ export default function getDefaultOptions(instance) {
                 }
             },
             {
-                label: instance.translate('Stick to left'),
+                label: instance.translate('Freeze'),
                 stickyAction: 'stick',
                 display: 'hidden',
                 action: function (column) {

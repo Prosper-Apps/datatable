@@ -70,7 +70,7 @@ describe('Column', function () {
 
     it('pins a column from the dropdown menu', function () {
         cy.clickDropdown(2);
-        cy.clickDropdownItem(2, 'Stick to left');
+        cy.clickDropdownItem(2, 'Freeze');
 
         cy.window().then(win => win.datatable.getColumn(2))
             .its('sticky')

@@ -3,7 +3,7 @@
 	"Sort Descending": "Absteigend sortieren",
 	"Reset sorting": "Sortierung zurücksetzen",
 	"Remove column": "Spalte entfernen",
-	"Stick to left": "Links anheften",
+	"Freeze": "Bevriezen",
 	"Unstick from left": "Linke Anheftung lösen",
 	"No Data": "Keine Daten",
 	"{count} cells copied": {
