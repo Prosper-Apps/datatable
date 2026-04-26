@@ -4,7 +4,7 @@
 	"Reset sorting": "Réinitialiser le tri",
 	"Remove column": "Supprimer colonne",
 	"Freeze": "Geler",
-	"Unstick from left": "Désépingler de la gauche",
+	"Unfreeze": "Dégeler",
 	"No Data": "Pas de données",
 	"{count} cells copied": {
 		"1": "{count} cellule copiée",
