@@ -40,7 +40,7 @@ export default function getDefaultOptions(instance) {
                 }
             },
             {
-                label: instance.translate('Unstick from left'),
+                label: instance.translate('Unfreeze'),
                 stickyAction: 'unstick',
                 display: 'hidden',
                 action: function (column) {

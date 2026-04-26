@@ -4,7 +4,7 @@
 	"Reset sorting": "Sortierung zurücksetzen",
 	"Remove column": "Spalte entfernen",
 	"Freeze": "Bevriezen",
-	"Unstick from left": "Linke Anheftung lösen",
+	"Unfreeze": "Ontdooien",
 	"No Data": "Keine Daten",
 	"{count} cells copied": {
 		"1": "{count} Zelle kopiert",

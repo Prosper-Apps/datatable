@@ -4,7 +4,7 @@
 	"Reset sorting": "Reset sorting",
 	"Remove column": "Remove column",
 	"Freeze": "Freeze",
-	"Unstick from left": "Unstick from left",
+	"Unfreeze": "Unfreeze",
 	"No Data": "No Data",
 	"{count} cells copied": {
 		"1": "{count} cell copied",
