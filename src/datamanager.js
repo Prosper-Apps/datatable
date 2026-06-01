@@ -74,14 +74,11 @@ export default class DataManager {
                 content: this.options.serialNoColumnLabel || '',
                 align: 'center',
                 editable: false,
-                resizable: false,
+                resizable: true,
                 focusable: false,
                 dropdown: false,
                 sticky: true
             };
-            if (this.options.data.length > 1000) {
-                cell.resizable = true;
-            }
             this.columns.push(cell);
         }
     }
